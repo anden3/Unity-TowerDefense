@@ -8,5 +8,20 @@ public class Enemy : MonoBehaviour {
     public float speed;
 
     public List<string> immunities;
-    public GameObject child;
+    public GameObject child = null;
+
+    public int RBE {
+        get {
+            Enemy current = this;
+            rbe = 1;
+
+            while (current.child != null) {
+                current = current.child.GetComponent<Enemy>();
+                rbe++;
+            }
+
+            return rbe;
+        }
+    }
+    private int rbe;
 }

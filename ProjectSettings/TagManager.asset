@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Background
   - Enemy
+  - Towers
   layers:
   - Default
   - TransparentFX
@@ -43,15 +44,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
-    uniqueID: 614898665
-    locked: 0
-  - name: Items
-    uniqueID: 2353194277
+  - name: Background
+    uniqueID: 84850929
     locked: 0
   - name: Units
     uniqueID: 1438536659
     locked: 0
-  - name: Background
-    uniqueID: 84850929
+  - name: Items
+    uniqueID: 2353194277
+    locked: 0
+  - name: UI
+    uniqueID: 614898665
     locked: 0

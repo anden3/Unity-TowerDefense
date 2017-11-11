@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 5ba323b2a9a329840bc6b6070caf1804
-timeCreated: 1510416731
+guid: f247b7dcc5cb8184aab3ca04ba2abed0
+timeCreated: 1510438136
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -22,7 +22,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -42,7 +42,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -77,16 +77,8 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline:
-    - - {x: -375, y: 301}
-      - {x: -375, y: -301}
-      - {x: 375, y: -301}
-      - {x: 375, y: 301}
-    physicsShape:
-    - - {x: -375, y: 301}
-      - {x: -375, y: -301}
-      - {x: 375, y: -301}
-      - {x: 375, y: 301}
+    outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

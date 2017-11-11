@@ -14,6 +14,19 @@ public class Wave {
 }
 
 public class GameController : MonoBehaviour {
+    public static GameController instance = null;
+
+    public int Lives {
+        get {
+            return lives;
+        }
+        set {
+            lives = value;
+        }
+    }
+    [SerializeField]
+    private int lives;
+
     public List<Wave> waves;
     public float enemySpawnDelay;
 
@@ -22,10 +35,17 @@ public class GameController : MonoBehaviour {
 
     private int waveIndex = 0;
     private bool startNextWave = true;
-    
-	void Start () {
 
-	}
+    private void Awake() {
+        if (instance == null) {
+            instance = this;
+        }
+        else if (instance != this) {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
 	
 	void Update () {
 		if (startNextWave && waveIndex < waves.Count) {
@@ -51,5 +71,9 @@ public class GameController : MonoBehaviour {
                 yield return new WaitForSeconds(enemySpawnDelay);
             }
         }
+    }
+
+    public void RemoveLives(int damage) {
+        Lives -= damage;
     }
 }
