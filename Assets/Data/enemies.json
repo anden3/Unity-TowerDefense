@@ -1,0 +1,26 @@
+[
+    {
+        "id": "red_bloon",
+        "color": [255, 0, 0, 255],
+        "health": 1,
+        "speed": 3,
+        "sprite": "balloon.png",
+        "immunities": [],
+        "children": []
+    },
+
+    {
+        "id": "blue_bloon",
+        "color": [0, 0, 255, 255],
+        "health": 2,
+        "speed": 4,
+        "sprite": "balloon.png",
+        "immunities": [],
+        "children": [
+            {
+                "id": "red_bloon",
+                "count": 1
+            }
+        ]
+    }
+]
