@@ -25,13 +25,6 @@ public class TowerController : MonoBehaviour {
         radiusSprite = radius.GetComponent<SpriteRenderer>();
         radiusTransparency = radiusSprite.color.a;
 
-        /*
-        GameObject background = GameObject.FindGameObjectWithTag("Background");
-        SpriteRenderer renderer = background.GetComponent<SpriteRenderer>();
-        Material mat = renderer.material;
-        Texture2D tex = mat.mainTexture as Texture2D;
-        */
-
         backgroundTexture = (Texture2D)GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
     }
 	
@@ -47,6 +40,9 @@ public class TowerController : MonoBehaviour {
                 mousePosition.z = 0;
                 transform.position = mousePosition;
 
+                CheckIfOnGrass();
+
+                /*
                 bool locationWasSuitable = suitableLocation;
                 suitableLocation = CheckIfOnGrass();
 
@@ -56,11 +52,19 @@ public class TowerController : MonoBehaviour {
                         new Color(1, 1, 1, radiusTransparency) :
                         new Color(1, 0, 0, radiusTransparency);
                 }
+                */
             }
         }
 	}
 
     private bool CheckIfOnGrass() {
+        Vector2 pixelCoord = Input.mousePosition;
+        radiusSprite.color = new Color(0, 0, 0, 0);
+        // radiusSprite.color = backgroundTexture.GetPixel((int)pixelCoord.x, (int)pixelCoord.y);
+        backgroundTexture.SetPixel((int)pixelCoord.x, (int)pixelCoord.y, new Color(1.0f, 0.0f, 0.0f));
+        backgroundTexture.Apply();
+
+        /*
         Vector3 grassSample = new Vector3(0.020f, 0.527f, 0.008f);
 
         Vector2[] points = new Vector2[4] {
@@ -90,6 +94,7 @@ public class TowerController : MonoBehaviour {
                 return false;
             }
         }
+        */
 
         return true;
     }
