@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerDartFire : MonoBehaviour {
-    public Dart projectile;
+    public GameObject projectile;
     public float fireRate;
 
     private TowerController tower;
@@ -20,7 +20,7 @@ public class TowerDartFire : MonoBehaviour {
         while (true) {
             yield return new WaitUntil(() => tower.target != null);
 
-            Dart dart = Instantiate(projectile.gameObject, transform.position, transform.rotation).GetComponent<Dart>();
+            Projectile dart = Instantiate(projectile.gameObject, transform.position, transform.rotation).GetComponent<Projectile>();
             Rigidbody2D rb = dart.GetComponent<Rigidbody2D>();
 
             Vector3 vectorToTarget = tower.target.transform.position - dart.transform.position;

@@ -33,8 +33,10 @@ public class GameController : MonoBehaviour {
     public Transform enemySpawnPosition;
     public Vector2 enemySpawnDirection;
 
+    [HideInInspector]
+    public bool waveInProgress = false;
+
     private int waveIndex = 0;
-    private bool waveInProgress = false;
 
     private void Awake() {
         if (instance == null) {
@@ -46,10 +48,6 @@ public class GameController : MonoBehaviour {
 
         DontDestroyOnLoad(gameObject);
     }
-	
-	void Update () {
-
-	}
 
     IEnumerator SpawnWave(Wave wave) {
         foreach (EnemyCount enemies in wave.enemies) {

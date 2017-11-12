@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dart : MonoBehaviour {
+public class Projectile : MonoBehaviour {
     public float speed;
+
+    [HideInInspector]
+    public bool destroyed = false;
 }

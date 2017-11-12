@@ -20,6 +20,10 @@ public class DirectionChanger : MonoBehaviour {
 
     IEnumerator ChangeDirection(GameObject unit) {
         while (true) {
+            if (unit == null) {
+                yield break;
+            }
+
             float sqrDist = (transform.position - unit.transform.position).sqrMagnitude;
 
             if (sqrDist < sqrMaxDistance) {
