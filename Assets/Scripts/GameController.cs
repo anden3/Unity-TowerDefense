@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour {
     public Vector2 enemySpawnDirection;
 
     private int waveIndex = 0;
-    private bool startNextWave = true;
+    private bool waveInProgress = false;
 
     private void Awake() {
         if (instance == null) {
@@ -48,14 +48,7 @@ public class GameController : MonoBehaviour {
     }
 	
 	void Update () {
-		if (startNextWave && waveIndex < waves.Count) {
-            startNextWave = false;
 
-            Wave wave = waves[waveIndex];
-            waveIndex++;
-
-            StartCoroutine(SpawnWave(wave));
-        }
 	}
 
     IEnumerator SpawnWave(Wave wave) {
@@ -71,9 +64,17 @@ public class GameController : MonoBehaviour {
                 yield return new WaitForSeconds(enemySpawnDelay);
             }
         }
+
+        yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("Enemy").Length == 0);
+        waveInProgress = false;
     }
 
-    public void RemoveLives(int damage) {
-        Lives -= damage;
+    public void StartNextWave() {
+        if (waveInProgress || waveIndex >= waves.Count) {
+            return;
+        }
+
+        waveInProgress = true;
+        StartCoroutine(SpawnWave(waves[waveIndex++]));
     }
 }

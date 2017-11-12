@@ -1,29 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerController : MonoBehaviour {
+    public float radius;
+    public float rotationSpeed;
+
     private bool placedDown = false;
-    private bool suitableLocation = true;
 
-    private SpriteRenderer towerSprite;
-    private CircleCollider2D col;
+    private BoxCollider2D towerCollider;
 
-    private GameObject radius;
+    private GameObject radiusVisualizer;
     private SpriteRenderer radiusSprite;
     private float radiusTransparency;
 
     private Texture2D backgroundTexture;
 
-    private float maxColorDifferenceSqr = 1.0f;
+    private bool suitableLocation = true;
+    private Vector3 suitableLocationColor = new Vector3(0.020f, 0.527f, 0.008f);
+    private const float maxColorDifferenceSqr = 0.1f;
+
+    private Vector3 lastMousePosition = new Vector3();
+
+    private List<Enemy> enemies = new List<Enemy>();
 
     private void Awake() {
-        towerSprite = gameObject.GetComponent<SpriteRenderer>();
-        col = gameObject.GetComponent<CircleCollider2D>();
+        towerCollider = gameObject.GetComponent<BoxCollider2D>();
 
-        radius = transform.GetChild(0).gameObject;
-        radiusSprite = radius.GetComponent<SpriteRenderer>();
+        radiusVisualizer = transform.GetChild(0).gameObject;
+        radiusSprite = radiusVisualizer.GetComponent<SpriteRenderer>();
         radiusTransparency = radiusSprite.color.a;
+
+        radiusVisualizer.transform.localScale = new Vector3(radius * 2, radius * 2, 1.0f);
 
         backgroundTexture = (Texture2D)GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
     }
@@ -32,17 +41,23 @@ public class TowerController : MonoBehaviour {
         if (!placedDown) {
             if (suitableLocation && Input.GetMouseButtonDown(0)) {
                 placedDown = true;
-                Destroy(radius);
+                radiusSprite.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
             }
             else {
                 // Make tower follow the mouse.
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePosition.z = 0;
+
+                // Don't bother recalculating if the mouse hasn't moved.
+                if (mousePosition == lastMousePosition) {
+                    return;
+                }
+
+                lastMousePosition = mousePosition;
                 transform.position = mousePosition;
 
                 CheckIfOnGrass();
 
-                /*
                 bool locationWasSuitable = suitableLocation;
                 suitableLocation = CheckIfOnGrass();
 
@@ -52,49 +67,51 @@ public class TowerController : MonoBehaviour {
                         new Color(1, 1, 1, radiusTransparency) :
                         new Color(1, 0, 0, radiusTransparency);
                 }
-                */
             }
         }
 	}
 
+    private void FixedUpdate() {
+        if (!placedDown || enemies.Count == 0) {
+            return;
+        }
+
+        Enemy target = enemies[0];
+
+        Vector3 vectorToTarget = target.transform.position - transform.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    public void EnemySpotted(Enemy enemy) {
+        enemies.Add(enemy);
+    }
+
+    public void EnemyOutOfRange(Enemy enemy) {
+        enemies.Remove(enemy);
+    }
+
     private bool CheckIfOnGrass() {
-        Vector2 pixelCoord = Input.mousePosition;
-        radiusSprite.color = new Color(0, 0, 0, 0);
-        // radiusSprite.color = backgroundTexture.GetPixel((int)pixelCoord.x, (int)pixelCoord.y);
-        backgroundTexture.SetPixel((int)pixelCoord.x, (int)pixelCoord.y, new Color(1.0f, 0.0f, 0.0f));
-        backgroundTexture.Apply();
-
-        /*
-        Vector3 grassSample = new Vector3(0.020f, 0.527f, 0.008f);
-
-        Vector2[] points = new Vector2[4] {
-            towerSprite.bounds.min,
-            (Vector2)towerSprite.bounds.min + new Vector2(towerSprite.bounds.size.x, 0),
-            (Vector2)towerSprite.bounds.min + new Vector2(0, towerSprite.bounds.size.y),
-            towerSprite.bounds.max
+        Vector2[] points = new Vector2[5] {
+            towerCollider.bounds.center,
+            towerCollider.bounds.min,
+            (Vector2)towerCollider.bounds.min + new Vector2(towerCollider.bounds.size.x, 0),
+            (Vector2)towerCollider.bounds.min + new Vector2(0, towerCollider.bounds.size.y),
+            towerCollider.bounds.max
         };
-
-        int i = 0;
 
         foreach (Vector2 point in points) {
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(point);
             Color c = backgroundTexture.GetPixel((int)screenPoint.x, (int)screenPoint.y);
 
-            // Debug.Log(i + " " + screenPoint);
-            i++;
-
             float diffSqr = (
-                grassSample - new Vector3(c.r, c.g, c.b)
+                suitableLocationColor - new Vector3(c.r, c.g, c.b)
             ).sqrMagnitude;
-
-            // Debug.Log(c);
-            // Debug.Log(diffSqr);
 
             if (diffSqr > maxColorDifferenceSqr) {
                 return false;
             }
         }
-        */
 
         return true;
     }
