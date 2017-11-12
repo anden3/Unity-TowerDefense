@@ -24,4 +24,18 @@ public class Enemy : MonoBehaviour {
         }
     }
     private int rbe;
+
+    private void OnTriggerEnter2D(Collider2D col) {
+        if (!col.CompareTag("Items")) {
+            return;
+        }
+
+        Destroy(col.gameObject);
+
+        if (child != null) {
+            Instantiate(child, transform.position, transform.rotation);
+        }
+
+        Destroy(gameObject);
+    }
 }

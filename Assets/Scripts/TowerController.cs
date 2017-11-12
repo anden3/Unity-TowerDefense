@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TowerController : MonoBehaviour {
     public float radius;
-    public float rotationSpeed;
+
+    public Color suitableLocationColor = new Color(0.020f, 0.527f, 0.008f);
+    public float colorTolerance = 0.1f;
+
+    [HideInInspector]
+    public Enemy target = null;
 
     private bool placedDown = false;
+    private bool suitableLocation = true;   
 
     private BoxCollider2D towerCollider;
 
@@ -16,10 +21,6 @@ public class TowerController : MonoBehaviour {
     private float radiusTransparency;
 
     private Texture2D backgroundTexture;
-
-    private bool suitableLocation = true;
-    private Vector3 suitableLocationColor = new Vector3(0.020f, 0.527f, 0.008f);
-    private const float maxColorDifferenceSqr = 0.1f;
 
     private Vector3 lastMousePosition = new Vector3();
 
@@ -76,7 +77,7 @@ public class TowerController : MonoBehaviour {
             return;
         }
 
-        Enemy target = enemies[0];
+        target = enemies[0];
 
         Vector3 vectorToTarget = target.transform.position - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
@@ -89,6 +90,14 @@ public class TowerController : MonoBehaviour {
 
     public void EnemyOutOfRange(Enemy enemy) {
         enemies.Remove(enemy);
+
+        // Make sure target doesn't turn invalid.
+        if (enemies.Count > 0) {
+            target = enemies[0];
+        }
+        else {
+            target = null;
+        }
     }
 
     private bool CheckIfOnGrass() {
@@ -103,12 +112,13 @@ public class TowerController : MonoBehaviour {
         foreach (Vector2 point in points) {
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(point);
             Color c = backgroundTexture.GetPixel((int)screenPoint.x, (int)screenPoint.y);
-
+            Color x = suitableLocationColor;
+                
             float diffSqr = (
-                suitableLocationColor - new Vector3(c.r, c.g, c.b)
+                new Vector3(x.r, x.g, x.b) - new Vector3(c.r, c.g, c.b)
             ).sqrMagnitude;
 
-            if (diffSqr > maxColorDifferenceSqr) {
+            if (diffSqr > colorTolerance) {
                 return false;
             }
         }

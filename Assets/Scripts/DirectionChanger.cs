@@ -13,7 +13,9 @@ public class DirectionChanger : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D unit) {
-        StartCoroutine(ChangeDirection(unit.gameObject));
+        if (unit.CompareTag("Enemy")) {
+            StartCoroutine(ChangeDirection(unit.gameObject));
+        }
     }
 
     IEnumerator ChangeDirection(GameObject unit) {
