@@ -31,7 +31,9 @@ public class TowerController : MonoBehaviour {
 
     private void Awake() {
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
+    }
 
+    private void Start() {
         radiusVisualizer = transform.GetChild(0).gameObject;
         radiusSprite = radiusVisualizer.GetComponent<SpriteRenderer>();
         radiusTransparency = radiusSprite.color.a;

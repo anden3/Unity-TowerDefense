@@ -482,7 +482,7 @@ MonoBehaviour:
   enemySpawnPosition: {fileID: 1661788219}
   enemySpawnDirection: {x: 1, y: 0}
   globalEnemySpeed: 0.4
-  waveText: {fileID: 0}
+  waveText: {fileID: 145958608}
   moneyText: {fileID: 215716357}
   livesText: {fileID: 1679932638}
   waveInProgress: 0
