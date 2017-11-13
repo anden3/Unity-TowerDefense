@@ -3,19 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerController : MonoBehaviour {
+    public float AttackRange {
+        get { return attackRange; }
+        set {
+            attackRange = value;
+            radiusVisualizer.transform.localScale = new Vector3(attackRange * 2, attackRange * 2, 1.0f);
+        }
+    }
+
     [Header("Tower Settings")]
     public int cost;
-    public float attackRange;
+    public float fireRate;
+    [SerializeField] private float attackRange;
+
+    [Header("Tower Modules")]
+    public Projectile projectile;
+    public FireFunction fireFunction;
+    public List<Upgrade> upgrades;
 
     [Header("Placement Settings")]
     public Color suitableLocationColor = new Color(0.020f, 0.527f, 0.008f);
     public float colorTolerance = 0.1f;
 
-    [HideInInspector]
-    public Enemy target = null;
+    [HideInInspector] public int projectileDurability = 1;
 
     private bool placedDown = false;
-    private bool suitableLocation = true;   
+    private bool suitableLocation = true;
 
     private BoxCollider2D towerCollider;
 
@@ -25,12 +38,15 @@ public class TowerController : MonoBehaviour {
 
     private Texture2D backgroundTexture;
 
-    private Vector3 lastMousePosition = new Vector3();
+    private Vector3 lastMousePosition;
 
+    private Enemy target = null;
     private List<Enemy> enemies = new List<Enemy>();
 
     private void Awake() {
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
+
+        fireFunction.Initialize(gameObject);
     }
 
     private void Start() {
@@ -44,7 +60,12 @@ public class TowerController : MonoBehaviour {
     }
 	
 	private void Update () {
-        if (!placedDown) {
+        if (placedDown) {
+            if (fireFunction.canFire && target != null) {
+                StartCoroutine(fireFunction.Fire(target));
+            }
+        }
+        else {
             if (suitableLocation && Input.GetMouseButtonDown(0)) {
                 placedDown = true;
                 radiusSprite.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
@@ -64,7 +85,7 @@ public class TowerController : MonoBehaviour {
                 transform.position = mousePosition;
 
                 bool locationWasSuitable = suitableLocation;
-                suitableLocation = CheckIfOnGrass();
+                suitableLocation = CheckIfOnSuitableTerrarin();
 
                 // Check if need to update radius color.
                 if (suitableLocation != locationWasSuitable) {
@@ -96,15 +117,10 @@ public class TowerController : MonoBehaviour {
         enemies.Remove(enemy);
 
         // Make sure target doesn't turn invalid.
-        if (enemies.Count > 0) {
-            target = enemies[0];
-        }
-        else {
-            target = null;
-        }
+        target = (enemies.Count > 0) ? enemies[0] : null;
     }
 
-    private bool CheckIfOnGrass() {
+    private bool CheckIfOnSuitableTerrarin() {
         Vector2[] points = new Vector2[5] {
             towerCollider.bounds.center,
             towerCollider.bounds.min,

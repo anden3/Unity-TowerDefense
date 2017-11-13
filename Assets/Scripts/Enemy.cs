@@ -25,26 +25,25 @@ public class Enemy : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
-        if (!(col.tag == "Dart")) {
+        if (col.tag != "Dart") {
             return;
         }
 
         // Prevent dart from hitting several enemies.
         Projectile d = col.GetComponent<Projectile>();
 
-        if (d.destroyed) {
+        if (d.Durability == 0) {
             return;
         }
 
-        d.destroyed = true;
-        Destroy(col.gameObject);
+        d.Durability--;
 
         if (child != null) {
             Enemy e = Instantiate(child, transform.position, transform.rotation).GetComponent<Enemy>();
 
             // Make speed of child be affected by global enemy speed.
-            float speed = (rb.velocity.magnitude / this.speed) * e.speed;
-            e.GetComponent<Rigidbody2D>().velocity = rb.velocity.normalized * speed;
+            float childSpeed = (rb.velocity.magnitude / speed) * e.speed;
+            e.GetComponent<Rigidbody2D>().velocity = rb.velocity.normalized * childSpeed;
         }
 
         GameController.instance.Money += RBE;

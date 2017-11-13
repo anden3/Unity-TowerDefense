@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
     public float speed;
+    public int Durability {
+        get { return durability; }
+        set {
+            durability = value;
 
-    [HideInInspector]
-    public bool destroyed = false;
+            if (durability == 0) {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    [SerializeField] private int durability;
 }
