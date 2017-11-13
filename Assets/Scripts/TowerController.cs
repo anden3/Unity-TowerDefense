@@ -84,7 +84,29 @@ public class TowerController : MonoBehaviour {
 	private void Update () {
         if (placedDown) {
             if (fireFunction.canFire && target != null) {
+                fireFunction.canFire = false;
                 StartCoroutine(fireFunction.Fire(target));
+            }
+
+            if (Input.GetMouseButtonDown(0)) {
+                RaycastHit2D[] hits = Physics2D.RaycastAll(
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)),
+                    Vector2.zero
+                );
+
+                foreach (RaycastHit2D hit in hits) {
+                    if (hit.collider.gameObject == gameObject) {
+                        highlighted = !highlighted;
+
+                        radiusSprite.color = highlighted ?
+                            new Color(1, 1, 1, 0.5f) :
+                            new Color(0, 0, 0, 0);
+
+                        foreach (Button b in upgradeButtons) {
+                            b.gameObject.SetActive(highlighted);
+                        }
+                    }
+                }
             }
         }
         else {
@@ -129,18 +151,6 @@ public class TowerController : MonoBehaviour {
         Vector3 vectorToTarget = target.transform.position - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    }
-
-    private void OnMouseDown() {
-        highlighted = !highlighted;
-
-        radiusSprite.color = highlighted ?
-            new Color(1, 1, 1, 0.5f) :
-            new Color(0, 0, 0, 0);
-
-        foreach (Button b in upgradeButtons) {
-            b.gameObject.SetActive(highlighted);
-        }
     }
 
     public void EnemySpotted(Enemy enemy) {

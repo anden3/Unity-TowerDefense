@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class FireFunction : ScriptableObject {
     [HideInInspector]
-    public bool canFire = true;
+    public bool canFire;
 
     public abstract void Initialize(GameObject obj);
     public abstract IEnumerator Fire(Enemy target);

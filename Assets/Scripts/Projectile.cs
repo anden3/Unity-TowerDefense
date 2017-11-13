@@ -16,4 +16,8 @@ public class Projectile : MonoBehaviour {
     }
 
     [SerializeField] private int durability;
+
+    private void OnBecameInvisible() {
+        Destroy(gameObject);
+    }
 }

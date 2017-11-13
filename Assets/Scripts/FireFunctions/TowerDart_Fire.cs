@@ -7,12 +7,11 @@ public class TowerDart_Fire : FireFunction {
     private TowerController tower;
 
     public override void Initialize(GameObject obj) {
+        canFire = true;
         tower = obj.GetComponent<TowerController>();
     }
 
     public override IEnumerator Fire(Enemy target) {
-        canFire = false;
-
         Projectile dart = Instantiate(
             tower.projectile.gameObject, tower.transform.position, tower.transform.rotation
         ).GetComponent<Projectile>();
