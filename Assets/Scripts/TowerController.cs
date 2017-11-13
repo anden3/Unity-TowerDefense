@@ -16,6 +16,7 @@ public class TowerController : MonoBehaviour {
     public int cost;
     public float fireRate;
     [SerializeField] private float attackRange;
+    public bool shouldRotate;
 
     [Header("Tower Modules")]
     public Projectile projectile;
@@ -75,6 +76,10 @@ public class TowerController : MonoBehaviour {
 
             upgradeName.text = u.name;
             upgradeCost.text = u.cost.ToString();
+
+            button.onClick.AddListener(delegate {
+                AddUpgrade(button, u);
+            });
 
             button.gameObject.SetActive(false);
             upgradeButtons.Add(button);
@@ -142,11 +147,9 @@ public class TowerController : MonoBehaviour {
 	}
 
     private void FixedUpdate() {
-        if (!placedDown || enemies.Count == 0) {
+        if (!shouldRotate || !placedDown || enemies.Count == 0) {
             return;
         }
-
-        target = enemies[0];
 
         Vector3 vectorToTarget = target.transform.position - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
@@ -155,6 +158,10 @@ public class TowerController : MonoBehaviour {
 
     public void EnemySpotted(Enemy enemy) {
         enemies.Add(enemy);
+
+        if (target == null) {
+            target = enemies[0];
+        }
     }
 
     public void EnemyOutOfRange(Enemy enemy) {
@@ -188,5 +195,17 @@ public class TowerController : MonoBehaviour {
         }
 
         return true;
+    }
+
+    private void AddUpgrade(Button button, Upgrade upgrade) {
+        if (upgrade.cost > GameController.instance.Money) {
+            return;
+        }
+
+        GameController.instance.Money -= upgrade.cost;
+        upgrade.AddUpgrade(gameObject);
+
+        upgradeButtons.Remove(button);
+        Destroy(button.gameObject);
     }
 }

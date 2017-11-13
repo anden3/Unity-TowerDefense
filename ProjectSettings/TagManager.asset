@@ -7,9 +7,8 @@ TagManager:
   - Background
   - Enemy
   - Towers
-  - Dart
-  - Tack
   - UpgradeWindow
+  - Projectile
   layers:
   - Default
   - TransparentFX

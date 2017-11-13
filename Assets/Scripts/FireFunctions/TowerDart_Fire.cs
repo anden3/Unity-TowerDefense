@@ -17,6 +17,8 @@ public class TowerDart_Fire : FireFunction {
         ).GetComponent<Projectile>();
 
         dart.Durability = tower.projectileDurability;
+        // dart.maxDistance = 
+
         Vector3 vectorToTarget = target.transform.position - dart.transform.position;
         dart.GetComponent<Rigidbody2D>().velocity = vectorToTarget * Time.deltaTime * dart.speed;
 

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName="Upgrade_TowerDart_LongRangeDarts", menuName="Upgrades/Dart Tower/Long Range Darts")]
-public class TowerDart_LongRangeDarts : Upgrade {
+[CreateAssetMenu(fileName = "Upgrade_TowerTack_ExtraRangeTacks", menuName = "Upgrades/Tack Tower/Extra Range Tacks")]
+public class TowerTack_ExtraRangeTacks : Upgrade {
     public float newAttackRange;
 
     public override void AddUpgrade(GameObject obj) {

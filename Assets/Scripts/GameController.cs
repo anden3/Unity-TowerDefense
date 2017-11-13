@@ -93,6 +93,7 @@ public class GameController : MonoBehaviour {
 
         waveInProgress = false;
         waveText.text = (waveIndex + 1).ToString();
+        Money += 100 - waveIndex;
     }
 
     public void StartNextWave() {

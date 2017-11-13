@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
-        if (col.tag != "Dart") {
+        if (col.tag != "Projectile") {
             return;
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-    public float speed;
     public int Durability {
         get { return durability; }
         set {
@@ -15,9 +14,7 @@ public class Projectile : MonoBehaviour {
         }
     }
 
-    [SerializeField] private int durability;
+    public float speed;
 
-    private void OnBecameInvisible() {
-        Destroy(gameObject);
-    }
+    private int durability;
 }
