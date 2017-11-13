@@ -5,13 +5,10 @@ using UnityEngine.UI;
 
 public class ButtonNextWave : MonoBehaviour {
     private Button button;
-    private Image buttonImage;
 
     private void Awake() {
         button = gameObject.GetComponent<Button>();
         button.onClick.AddListener(ButtonClicked);
-
-        buttonImage = gameObject.GetComponent<Image>();
     }
 
     private void ButtonClicked() {

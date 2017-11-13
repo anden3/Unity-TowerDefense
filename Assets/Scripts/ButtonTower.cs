@@ -14,6 +14,12 @@ public class ButtonTower : MonoBehaviour {
     }
 
     private void ButtonClicked() {
+        int towerCost = tower.GetComponent<TowerController>().cost;
+
+        if (towerCost > GameController.instance.Money) {
+            return;
+        }
+
         Instantiate(tower, Input.mousePosition, Quaternion.identity);
     }
 }

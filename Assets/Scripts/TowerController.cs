@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerController : MonoBehaviour {
-    public float radius;
+    [Header("Tower Settings")]
+    public int cost;
+    public float attackRange;
 
+    [Header("Placement Settings")]
     public Color suitableLocationColor = new Color(0.020f, 0.527f, 0.008f);
     public float colorTolerance = 0.1f;
 
@@ -33,7 +36,7 @@ public class TowerController : MonoBehaviour {
         radiusSprite = radiusVisualizer.GetComponent<SpriteRenderer>();
         radiusTransparency = radiusSprite.color.a;
 
-        radiusVisualizer.transform.localScale = new Vector3(radius * 2, radius * 2, 1.0f);
+        radiusVisualizer.transform.localScale = new Vector3(attackRange * 2, attackRange * 2, 1.0f);
 
         backgroundTexture = (Texture2D)GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
     }
@@ -43,6 +46,7 @@ public class TowerController : MonoBehaviour {
             if (suitableLocation && Input.GetMouseButtonDown(0)) {
                 placedDown = true;
                 radiusSprite.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+                GameController.instance.Money -= cost;
             }
             else {
                 // Make tower follow the mouse.
@@ -56,8 +60,6 @@ public class TowerController : MonoBehaviour {
 
                 lastMousePosition = mousePosition;
                 transform.position = mousePosition;
-
-                CheckIfOnGrass();
 
                 bool locationWasSuitable = suitableLocation;
                 suitableLocation = CheckIfOnGrass();

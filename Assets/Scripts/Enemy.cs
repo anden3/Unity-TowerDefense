@@ -8,23 +8,24 @@ public class Enemy : MonoBehaviour {
     public List<string> immunities;
     public GameObject child = null;
 
-    public int RBE {
-        get {
-            Enemy current = this;
-            rbe = 1;
+    public int RBE;
 
-            while (current.child != null) {
-                current = current.child.GetComponent<Enemy>();
-                rbe++;
-            }
+    private Rigidbody2D rb;
 
-            return rbe;
+    private void Awake() {
+        Enemy current = this;
+        RBE = 1;
+
+        while (current.child != null) {
+            current = current.child.GetComponent<Enemy>();
+            RBE++;
         }
+
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
-    private int rbe;
 
     private void OnTriggerEnter2D(Collider2D col) {
-        if (!col.CompareTag("Items")) {
+        if (!(col.tag == "Dart")) {
             return;
         }
 
@@ -40,9 +41,13 @@ public class Enemy : MonoBehaviour {
 
         if (child != null) {
             Enemy e = Instantiate(child, transform.position, transform.rotation).GetComponent<Enemy>();
-            e.GetComponent<Rigidbody2D>().velocity = gameObject.GetComponent<Rigidbody2D>().velocity.normalized * e.speed;
+
+            // Make speed of child be affected by global enemy speed.
+            float speed = (rb.velocity.magnitude / this.speed) * e.speed;
+            e.GetComponent<Rigidbody2D>().velocity = rb.velocity.normalized * speed;
         }
 
+        GameController.instance.Money += RBE;
         Destroy(gameObject);
     }
 }
