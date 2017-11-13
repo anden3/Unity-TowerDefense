@@ -14,7 +14,7 @@ public class TowerController : MonoBehaviour {
 
     [Header("Tower Settings")]
     public int cost;
-    public float fireRate;
+    public float fireDelay;
     [SerializeField] private float attackRange;
     public bool shouldRotate;
 

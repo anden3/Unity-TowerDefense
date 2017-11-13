@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Upgrade_TowerDart_PiercingDarts", menuName = "Upgrades/Dart Tower/Piercing Darts")]
+[CreateAssetMenu(fileName = "TowerDart_PiercingDarts", menuName = "Upgrades/Dart Tower/Piercing Darts")]
 public class TowerDart_PiercingDarts : Upgrade {
     public int newProjectileDurability;
 

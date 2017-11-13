@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName="TowerDart", menuName="Fire Functions/Dart Tower")]
-public class TowerDart_Fire : FireFunction {
+[CreateAssetMenu(fileName="TowerBomb", menuName="Fire Functions/Bomb Tower")]
+public class TowerBomb_Fire : FireFunction {
     private TowerController tower;
 
     public override void Initialize(GameObject obj) {
@@ -12,14 +12,12 @@ public class TowerDart_Fire : FireFunction {
     }
 
     public override IEnumerator Fire(Enemy target) {
-        Projectile dart = Instantiate(
+        Projectile bomb = Instantiate(
             tower.projectile.gameObject, tower.transform.position, tower.transform.rotation
         ).GetComponent<Projectile>();
 
-        dart.Durability = tower.projectileDurability;
-
-        Vector3 vectorToTarget = target.transform.position - dart.transform.position;
-        dart.GetComponent<Rigidbody2D>().velocity = vectorToTarget * dart.speed;
+        Vector3 vectorToTarget = target.transform.position - bomb.transform.position;
+        bomb.GetComponent<Rigidbody2D>().velocity = vectorToTarget * bomb.speed;
 
         yield return new WaitForSeconds(tower.fireDelay);
 

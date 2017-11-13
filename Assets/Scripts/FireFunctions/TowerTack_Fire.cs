@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName="FireFunction_TowerTack", menuName="Fire Functions/Tack Tower")]
+[CreateAssetMenu(fileName="TowerTack", menuName="Fire Functions/Tack Tower")]
 public class TowerTack_Fire : FireFunction {
     private TowerController tower;
 
@@ -24,10 +24,10 @@ public class TowerTack_Fire : FireFunction {
             ).GetComponent<Projectile>();
 
             tack.Durability = tower.projectileDurability;
-            tack.GetComponent<Rigidbody2D>().velocity = rotation * Vector2.up * Time.deltaTime * tack.speed;
+            tack.GetComponent<Rigidbody2D>().velocity = rotation * Vector2.up * tack.speed;
         }
 
-        yield return new WaitForSeconds(tower.fireRate);
+        yield return new WaitForSeconds(tower.fireDelay);
 
         canFire = true;
     }
