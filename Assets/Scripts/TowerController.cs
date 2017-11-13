@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerController : MonoBehaviour {
     public float AttackRange {
@@ -25,6 +26,9 @@ public class TowerController : MonoBehaviour {
     public Color suitableLocationColor = new Color(0.020f, 0.527f, 0.008f);
     public float colorTolerance = 0.1f;
 
+    [Header("UI References")]
+    public Button upgradeButton;
+
     [HideInInspector] public int projectileDurability = 1;
 
     private bool placedDown = false;
@@ -43,6 +47,8 @@ public class TowerController : MonoBehaviour {
     private Enemy target = null;
     private List<Enemy> enemies = new List<Enemy>();
 
+    // private GameObject upgradeWindow;
+
     private void Awake() {
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
 
@@ -57,6 +63,29 @@ public class TowerController : MonoBehaviour {
         radiusVisualizer.transform.localScale = new Vector3(attackRange * 2, attackRange * 2, 1.0f);
 
         backgroundTexture = (Texture2D)GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
+
+        GameObject upgradeWindow = GameObject.FindGameObjectWithTag("UpgradeWindow");
+
+        foreach (Upgrade u in upgrades) {
+            Button button = Instantiate(upgradeButton, upgradeWindow.transform);
+
+            Text upgradeName = button.transform.GetChild(0).GetComponent<Text>();
+            Text upgradeCost = button.transform.GetChild(1).GetComponent<Text>();
+
+            upgradeName.text = u.name;
+            upgradeCost.text = u.cost.ToString();
+
+            /*
+            GameObject button = new GameObject();
+            button.transform.SetParent(upgradeWindow.transform);
+
+            RectTransform rt = button.AddComponent<RectTransform>();
+            Button but = button.AddComponent<Button>();
+
+            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, upgradeWindow.GetComponent<RectTransform>().rect.width);
+            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, upgradeWindow.GetComponent<RectTransform>().rect.height);
+            */
+        }
     }
 	
 	private void Update () {

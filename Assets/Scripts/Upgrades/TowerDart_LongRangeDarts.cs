@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CreateAssetMenu(menuName="Upgrades/Dart Tower/Long Range Darts")]
+[CreateAssetMenu(fileName="Upgrade_TowerDart_LongRangeDarts", menuName="Upgrades/Dart Tower/Long Range Darts")]
 public class TowerDart_LongRangeDarts : Upgrade {
     public float newAttackRange;
 

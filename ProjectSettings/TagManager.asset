@@ -9,6 +9,7 @@ TagManager:
   - Towers
   - Dart
   - Tack
+  - UpgradeWindow
   layers:
   - Default
   - TransparentFX
