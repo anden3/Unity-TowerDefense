@@ -33,6 +33,7 @@ public class TowerController : MonoBehaviour {
 
     private bool placedDown = false;
     private bool suitableLocation = true;
+    private bool highlighted = false;
 
     private BoxCollider2D towerCollider;
 
@@ -47,7 +48,7 @@ public class TowerController : MonoBehaviour {
     private Enemy target = null;
     private List<Enemy> enemies = new List<Enemy>();
 
-    // private GameObject upgradeWindow;
+    private List<Button> upgradeButtons = new List<Button>();
 
     private void Awake() {
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
@@ -75,16 +76,8 @@ public class TowerController : MonoBehaviour {
             upgradeName.text = u.name;
             upgradeCost.text = u.cost.ToString();
 
-            /*
-            GameObject button = new GameObject();
-            button.transform.SetParent(upgradeWindow.transform);
-
-            RectTransform rt = button.AddComponent<RectTransform>();
-            Button but = button.AddComponent<Button>();
-
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, upgradeWindow.GetComponent<RectTransform>().rect.width);
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, upgradeWindow.GetComponent<RectTransform>().rect.height);
-            */
+            button.gameObject.SetActive(false);
+            upgradeButtons.Add(button);
         }
     }
 	
@@ -136,6 +129,18 @@ public class TowerController : MonoBehaviour {
         Vector3 vectorToTarget = target.transform.position - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    private void OnMouseDown() {
+        highlighted = !highlighted;
+
+        radiusSprite.color = highlighted ?
+            new Color(1, 1, 1, 0.5f) :
+            new Color(0, 0, 0, 0);
+
+        foreach (Button b in upgradeButtons) {
+            b.gameObject.SetActive(highlighted);
+        }
     }
 
     public void EnemySpotted(Enemy enemy) {
