@@ -9,37 +9,37 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1174436594208534}
+  m_RootGameObject: {fileID: 1441518095199452}
   m_IsPrefabParent: 1
---- !u!1 &1174436594208534
+--- !u!1 &1441518095199452
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4021499120018920}
-  - component: {fileID: 212824312756021548}
-  - component: {fileID: 61414616468344824}
-  - component: {fileID: 114626665860989054}
+  - component: {fileID: 4864164710709302}
+  - component: {fileID: 212931188313655782}
+  - component: {fileID: 61168773332958376}
+  - component: {fileID: 114145278336758826}
   m_Layer: 10
-  m_Name: TowerTack
+  m_Name: TowerSuper
   m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1313207690426848
+--- !u!1 &1696984123127618
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4293551267926132}
-  - component: {fileID: 212543400129552314}
-  - component: {fileID: 58586854419950830}
-  - component: {fileID: 114390500086444330}
+  - component: {fileID: 4758667684587478}
+  - component: {fileID: 212132641119597768}
+  - component: {fileID: 58821332077165994}
+  - component: {fileID: 114719452578314394}
   m_Layer: 10
   m_Name: Radius
   m_TagString: Tower
@@ -47,39 +47,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4021499120018920
+--- !u!4 &4758667684587478
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1174436594208534}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4293551267926132}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4293551267926132
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1313207690426848}
+  m_GameObject: {fileID: 1696984123127618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 4021499120018920}
+  m_Father: {fileID: 4864164710709302}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &58586854419950830
+--- !u!4 &4864164710709302
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441518095199452}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4758667684587478}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &58821332077165994
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1313207690426848}
+  m_GameObject: {fileID: 1696984123127618}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -89,12 +89,12 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!61 &61414616468344824
+--- !u!61 &61168773332958376
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1174436594208534}
+  m_GameObject: {fileID: 1441518095199452}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -105,7 +105,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.39, y: 0.4}
+    oldSize: {x: 0.54, y: 0.49}
     newSize: {x: 1.13, y: 1.13}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -114,50 +114,49 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.22}
   m_EdgeRadius: 0
---- !u!114 &114390500086444330
+--- !u!114 &114145278336758826
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1313207690426848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5758df1a9af18b740af7c902866f307e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114626665860989054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1174436594208534}
+  m_GameObject: {fileID: 1441518095199452}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4667164e6f66e084c84bcd8f4542db05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Tack Tower
-  cost: 400
-  fireDelay: 1.7
-  attackRange: 0.6
-  shouldRotate: 0
-  projectile: {fileID: 114573977393221716, guid: b4503082e69b04309b74a5c3bd27fe0c,
+  name: Super Monkey
+  cost: 4000
+  fireDelay: 0.07
+  attackRange: 1.4
+  shouldRotate: 1
+  projectile: {fileID: 114408916770445978, guid: 46b14238442378a4d865d690d456be63,
     type: 2}
-  fireScript: {fileID: 11500000, guid: f6be2a3f285f79644a2aa07a5cc61d19, type: 3}
+  fireScript: {fileID: 11500000, guid: b2ffc3d885bd5d7478930324b9838193, type: 3}
   upgrades:
-  - {fileID: 114502622310464202, guid: 5c1d0d0c77d14a9439f29127425952a7, type: 2}
-  - {fileID: 114200455317763206, guid: 710e40e8c486ddc419c48c2ff3c6313f, type: 2}
+  - {fileID: 114650735506949060, guid: 9968b7c7d2033704e8d1ac8d6be67fae, type: 2}
   suitableLocationColor: {r: 0.02, g: 0.527, b: 0.008, a: 1}
   colorTolerance: 0.1
   upgradeButton: {fileID: 114605493663390306, guid: 42938f37d424f41a98d3e6ce565dc144,
     type: 2}
   projectileDurability: 1
---- !u!212 &212543400129552314
+--- !u!114 &114719452578314394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1696984123127618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758df1a9af18b740af7c902866f307e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &212132641119597768
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1313207690426848}
+  m_GameObject: {fileID: 1696984123127618}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -193,12 +192,12 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
---- !u!212 &212824312756021548
+--- !u!212 &212931188313655782
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1174436594208534}
+  m_GameObject: {fileID: 1441518095199452}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -225,7 +224,7 @@ SpriteRenderer:
   m_SortingLayerID: 1438536659
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bc3cabaf6a2a16e4e8e53a5392b61001, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 88f7fe98566e9e647b2b25b53baac365, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
