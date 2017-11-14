@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName="TowerDart", menuName="Fire Functions/Dart Tower")]
 public class TowerDart_Fire : FireFunction {
     private TowerController tower;
 

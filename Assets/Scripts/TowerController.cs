@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class TowerController : MonoBehaviour {
     public float AttackRange {
@@ -20,7 +22,7 @@ public class TowerController : MonoBehaviour {
 
     [Header("Tower Modules")]
     public Projectile projectile;
-    public FireFunction fireFunction;
+    public MonoScript fireScript;
     public List<Upgrade> upgrades;
 
     [Header("Placement Settings")]
@@ -34,7 +36,9 @@ public class TowerController : MonoBehaviour {
 
     private bool placedDown = false;
     private bool suitableLocation = true;
-    private bool highlighted = false;
+    public bool highlighted = false;
+
+    private FireFunction fireFunction;
 
     private BoxCollider2D towerCollider;
 
@@ -54,6 +58,7 @@ public class TowerController : MonoBehaviour {
     private void Awake() {
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
 
+        fireFunction = gameObject.AddComponent(Type.GetType(fireScript.name)) as FireFunction;
         fireFunction.Initialize(gameObject);
     }
 
@@ -88,7 +93,13 @@ public class TowerController : MonoBehaviour {
 	
 	private void Update () {
         if (placedDown) {
-            if (fireFunction.canFire && target != null) {
+            if (target != null && fireFunction.canFire) {
+                if (shouldRotate) {
+                    Vector3 vectorToTarget = target.transform.position - transform.position;
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
+                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                }
+
                 fireFunction.canFire = false;
                 StartCoroutine(fireFunction.Fire(target));
             }
@@ -99,18 +110,22 @@ public class TowerController : MonoBehaviour {
                     Vector2.zero
                 );
 
-                foreach (RaycastHit2D hit in hits) {
-                    if (hit.collider.gameObject == gameObject) {
-                        highlighted = !highlighted;
+                bool wasHighlighted = highlighted;
+                highlighted = false;
 
-                        radiusSprite.color = highlighted ?
+                foreach (RaycastHit2D hit in hits) {
+                    if (hit.collider.gameObject == gameObject && !wasHighlighted) {
+                        highlighted = true;
+                        break;
+                    }
+                }
+
+                radiusSprite.color = highlighted ?
                             new Color(1, 1, 1, 0.5f) :
                             new Color(0, 0, 0, 0);
 
-                        foreach (Button b in upgradeButtons) {
-                            b.gameObject.SetActive(highlighted);
-                        }
-                    }
+                foreach (Button b in upgradeButtons) {
+                    b.gameObject.SetActive(highlighted);
                 }
             }
         }
@@ -145,16 +160,6 @@ public class TowerController : MonoBehaviour {
             }
         }
 	}
-
-    private void FixedUpdate() {
-        if (!shouldRotate || !placedDown || enemies.Count == 0) {
-            return;
-        }
-
-        Vector3 vectorToTarget = target.transform.position - transform.position;
-        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    }
 
     public void EnemySpotted(Enemy enemy) {
         enemies.Add(enemy);

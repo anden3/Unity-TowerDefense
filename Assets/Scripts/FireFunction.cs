@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FireFunction : ScriptableObject {
+public abstract class FireFunction : MonoBehaviour {
     [HideInInspector]
     public bool canFire;
 
