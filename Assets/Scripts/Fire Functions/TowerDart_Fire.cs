@@ -11,11 +11,11 @@ public class TowerDart_Fire : FireFunction {
     }
 
     public override IEnumerator Fire(Enemy target) {
-        Projectile dart = Instantiate(
+        Dart dart = Instantiate(
             tower.projectile.gameObject, tower.transform.position, tower.transform.rotation
-        ).GetComponent<Projectile>();
+        ).GetComponent<Dart>();
 
-        dart.Durability = tower.projectileDurability;
+        dart.durability = tower.projectileDurability;
 
         Vector3 vectorToTarget = target.transform.position - dart.transform.position;
         dart.GetComponent<Rigidbody2D>().velocity = vectorToTarget * dart.speed;

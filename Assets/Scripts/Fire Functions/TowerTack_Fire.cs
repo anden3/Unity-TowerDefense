@@ -18,11 +18,11 @@ public class TowerTack_Fire : FireFunction {
         foreach (float angle in fireAngles) {
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            Projectile tack = Instantiate(
+            Tack tack = Instantiate(
                 tower.projectile.gameObject, tower.transform.position, rotation
-            ).GetComponent<Projectile>();
+            ).GetComponent<Tack>();
 
-            tack.Durability = tower.projectileDurability;
+            tack.durability = tower.projectileDurability;
             tack.GetComponent<Rigidbody2D>().velocity = rotation * Vector2.up * tack.speed;
         }
 

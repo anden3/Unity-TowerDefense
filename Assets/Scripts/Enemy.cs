@@ -24,20 +24,7 @@ public class Enemy : MonoBehaviour {
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D col) {
-        if (col.tag != "Projectile") {
-            return;
-        }
-
-        // Prevent dart from hitting several enemies.
-        Projectile d = col.GetComponent<Projectile>();
-
-        if (d.Durability == 0) {
-            return;
-        }
-
-        d.Durability--;
-
+    public void Pop() {
         if (child != null) {
             Enemy e = Instantiate(child, transform.position, transform.rotation).GetComponent<Enemy>();
 

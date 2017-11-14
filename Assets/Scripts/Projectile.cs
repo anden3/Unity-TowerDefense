@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour {
-    public int Durability {
-        get { return durability; }
-        set {
-            durability = value;
-
-            if (durability == 0) {
-                Destroy(gameObject);
-            }
-        }
-    }
-
+public abstract class Projectile : MonoBehaviour {
     public float speed;
 
-    private int durability;
+    protected bool isDestroyed = false;
+
+    private void OnTriggerEnter2D(Collider2D col) {
+        if (isDestroyed || col.tag != "Enemy") {
+            return;
+        }
+
+        HitEnemy(col.GetComponent<Enemy>());
+    }
+
+    protected abstract void HitEnemy(Enemy enemy);
 }

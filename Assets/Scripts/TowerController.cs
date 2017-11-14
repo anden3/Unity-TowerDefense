@@ -168,8 +168,6 @@ public class TowerController : MonoBehaviour {
                             new Color(1, 1, 1, 0.5f) :
                             new Color(0, 0, 0, 0);
 
-                towerOptionsCanvas.alpha = highlighted ? 1.0f : 0.0f;
-
                 foreach (Button b in upgradeButtons) {
                     b.gameObject.SetActive(highlighted);
                 }
@@ -177,9 +175,11 @@ public class TowerController : MonoBehaviour {
                 // Keep track of which tower is currently selected.
                 if (highlighted) {
                     GameController.instance.selectedTower = this;
+                    towerOptionsCanvas.alpha = 1.0f;
                 }
                 else if (GameController.instance.selectedTower == this) {
                     GameController.instance.selectedTower = null;
+                    towerOptionsCanvas.alpha = 0.0f;
                 }
             }
         }

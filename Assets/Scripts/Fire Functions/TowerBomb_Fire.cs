@@ -11,9 +11,9 @@ public class TowerBomb_Fire : FireFunction {
     }
 
     public override IEnumerator Fire(Enemy target) {
-        Projectile bomb = Instantiate(
+        Bomb bomb = Instantiate(
             tower.projectile.gameObject, tower.transform.position, tower.transform.rotation
-        ).GetComponent<Projectile>();
+        ).GetComponent<Bomb>();
 
         Vector3 vectorToTarget = target.transform.position - bomb.transform.position;
         bomb.GetComponent<Rigidbody2D>().velocity = vectorToTarget * bomb.speed;
