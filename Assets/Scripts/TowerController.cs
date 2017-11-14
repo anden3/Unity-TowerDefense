@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEditor;
 
 public class TowerController : MonoBehaviour {
+    static public CanvasGroup towerOptionsCanvas = null;
+
     public float AttackRange {
         get { return attackRange; }
         set {
@@ -36,7 +39,7 @@ public class TowerController : MonoBehaviour {
 
     private bool placedDown = false;
     private bool suitableLocation = true;
-    public bool highlighted = false;
+    private bool highlighted = false;
 
     private FireFunction fireFunction;
 
@@ -52,7 +55,6 @@ public class TowerController : MonoBehaviour {
 
     private Enemy target = null;
     private List<Enemy> enemies = new List<Enemy>();
-
     private List<Button> upgradeButtons = new List<Button>();
 
     private void Awake() {
@@ -70,7 +72,6 @@ public class TowerController : MonoBehaviour {
         radiusVisualizer.transform.localScale = new Vector3(attackRange * 2, attackRange * 2, 1.0f);
 
         backgroundTexture = (Texture2D)GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
-
         GameObject upgradeWindow = GameObject.FindGameObjectWithTag("UpgradeWindow");
 
         foreach (Upgrade u in upgrades) {
@@ -120,9 +121,21 @@ public class TowerController : MonoBehaviour {
                     }
                 }
 
+                // Check if highlighted status was removed.
+                if (wasHighlighted && !highlighted) {
+                    GameObject selectedUIElement = EventSystem.current.currentSelectedGameObject;
+
+                    // Keep highlight status if element clicked was an upgrade.
+                    if (selectedUIElement != null && selectedUIElement.tag == "UpgradeButton") {
+                        highlighted = true;
+                    }
+                }
+
                 radiusSprite.color = highlighted ?
                             new Color(1, 1, 1, 0.5f) :
                             new Color(0, 0, 0, 0);
+
+                towerOptionsCanvas.alpha = highlighted ? 1.0f : 0.0f;
 
                 foreach (Button b in upgradeButtons) {
                     b.gameObject.SetActive(highlighted);
@@ -130,6 +143,12 @@ public class TowerController : MonoBehaviour {
             }
         }
         else {
+            // Cancel placement.
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape)) {
+                Destroy(gameObject);
+                return;
+            }
+
             if (suitableLocation && Input.GetMouseButtonDown(0)) {
                 placedDown = true;
                 radiusSprite.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);

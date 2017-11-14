@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Upgrade : ScriptableObject {
+public abstract class Upgrade : MonoBehaviour {
     public new string name;
     public int cost;
 

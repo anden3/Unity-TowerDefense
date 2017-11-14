@@ -73,6 +73,9 @@ public class GameController : MonoBehaviour {
         waveText.text = "1";
         moneyText.text = money.ToString();
         livesText.text = lives.ToString();
+
+        TowerController.towerOptionsCanvas = GameObject.FindGameObjectWithTag("TowerOptions").GetComponent<CanvasGroup>();
+        TowerController.towerOptionsCanvas.alpha = 0;
     }
 
     IEnumerator SpawnWave(Wave wave) {

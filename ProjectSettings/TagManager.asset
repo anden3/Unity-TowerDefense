@@ -6,9 +6,12 @@ TagManager:
   tags:
   - Background
   - Enemy
-  - Towers
   - UpgradeWindow
   - Projectile
+  - UpgradeButton
+  - Tower
+  - UpgradeView
+  - TowerOptions
   layers:
   - Default
   - TransparentFX
