@@ -2,25 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class ButtonTower : MonoBehaviour {
+public class ButtonTower : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+    private static Text towerInfoName;
+    private static Text towerInfoCost;
+
     public TowerController tower;
 
     private Button button;
-    private Text towerCostField;
+
+    public static void Initialize() {
+        towerInfoName = GameObject.FindGameObjectWithTag("TowerInfoName").GetComponent<Text>();
+        towerInfoCost = GameObject.FindGameObjectWithTag("TowerInfoCost").GetComponent<Text>();
+    }
 
 	private void Awake() {
         button = gameObject.GetComponent<Button>();
         button.onClick.AddListener(ButtonClicked);
+    }
 
-        towerCostField = transform.GetChild(0).GetComponent<Text>();
-        towerCostField.text = tower.cost.ToString();
+    public void OnPointerEnter(PointerEventData eventData) {
+        towerInfoName.text = tower.name;
+        towerInfoCost.text = tower.cost.ToString();
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        towerInfoName.text = "";
+        towerInfoCost.text = "";
     }
 
     private void ButtonClicked() {
-        int towerCost = tower.cost;
-
-        if (towerCost > GameController.instance.Money) {
+        if (tower.cost > GameController.instance.Money) {
             return;
         }
 

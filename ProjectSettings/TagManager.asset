@@ -12,6 +12,9 @@ TagManager:
   - Tower
   - UpgradeView
   - TowerOptions
+  - TowerInfoName
+  - TowerInfoCost
+  - TowerSellValue
   layers:
   - Default
   - TransparentFX

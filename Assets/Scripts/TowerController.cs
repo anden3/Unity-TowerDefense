@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 
 public class TowerController : MonoBehaviour {
-    static public CanvasGroup towerOptionsCanvas = null;
+    static private Text sellValue;
+    static private CanvasGroup towerOptionsCanvas = null;
 
     public float AttackRange {
         get { return attackRange; }
@@ -18,6 +19,7 @@ public class TowerController : MonoBehaviour {
     }
 
     [Header("Tower Settings")]
+    public new string name;
     public int cost;
     public float fireDelay;
     [SerializeField] private float attackRange;
@@ -57,7 +59,38 @@ public class TowerController : MonoBehaviour {
     private List<Enemy> enemies = new List<Enemy>();
     private List<Button> upgradeButtons = new List<Button>();
 
+    private int towerValue {
+        get { return _towerValue; }
+        set {
+            _towerValue = value;
+            sellValue.text = Mathf.RoundToInt(_towerValue * 0.8f).ToString();
+        }
+    }
+
+    private int _towerValue;
+
+    public static void Initialize() {
+        sellValue = GameObject.FindGameObjectWithTag("TowerSellValue").GetComponent<Text>();
+        towerOptionsCanvas = GameObject.FindGameObjectWithTag("TowerOptions").GetComponent<CanvasGroup>();
+        towerOptionsCanvas.alpha = 0;
+    }
+
+    private static bool HasParentWithTag(GameObject obj, string tag) {
+        Transform currentTransform = obj.transform;
+
+        while (currentTransform.parent != null) {
+            if (currentTransform.parent.tag == tag) {
+                return true;
+            }
+
+            currentTransform = currentTransform.parent;
+        }
+
+        return false;
+    }
+
     private void Awake() {
+        towerValue = cost;
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
 
         fireFunction = gameObject.AddComponent(Type.GetType(fireScript.name)) as FireFunction;
@@ -126,7 +159,7 @@ public class TowerController : MonoBehaviour {
                     GameObject selectedUIElement = EventSystem.current.currentSelectedGameObject;
 
                     // Keep highlight status if element clicked was an upgrade.
-                    if (selectedUIElement != null && selectedUIElement.tag == "UpgradeButton") {
+                    if (selectedUIElement != null && HasParentWithTag(selectedUIElement, "TowerOptions")) {
                         highlighted = true;
                     }
                 }
@@ -139,6 +172,14 @@ public class TowerController : MonoBehaviour {
 
                 foreach (Button b in upgradeButtons) {
                     b.gameObject.SetActive(highlighted);
+                }
+
+                // Keep track of which tower is currently selected.
+                if (highlighted) {
+                    GameController.instance.selectedTower = this;
+                }
+                else if (GameController.instance.selectedTower == this) {
+                    GameController.instance.selectedTower = null;
                 }
             }
         }
@@ -195,6 +236,19 @@ public class TowerController : MonoBehaviour {
         target = (enemies.Count > 0) ? enemies[0] : null;
     }
 
+    public int Sell() {
+        towerOptionsCanvas.alpha = 0.0f;
+
+        foreach (Button b in upgradeButtons) {
+            Destroy(b.gameObject);
+        }
+
+        GameController.instance.selectedTower = null;
+        Destroy(gameObject);
+
+        return Mathf.RoundToInt(towerValue * 0.8f);
+    }
+
     private bool CheckIfOnSuitableTerrarin() {
         Vector2[] points = new Vector2[5] {
             towerCollider.bounds.center,
@@ -228,6 +282,7 @@ public class TowerController : MonoBehaviour {
 
         GameController.instance.Money -= upgrade.cost;
         upgrade.AddUpgrade(gameObject);
+        towerValue += upgrade.cost;
 
         upgradeButtons.Remove(button);
         Destroy(button.gameObject);

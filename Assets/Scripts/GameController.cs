@@ -57,6 +57,8 @@ public class GameController : MonoBehaviour {
 
     [HideInInspector]
     public bool waveInProgress = false;
+    [HideInInspector]
+    public TowerController selectedTower = null;
 
     private int waveIndex = 0;
 
@@ -74,8 +76,8 @@ public class GameController : MonoBehaviour {
         moneyText.text = money.ToString();
         livesText.text = lives.ToString();
 
-        TowerController.towerOptionsCanvas = GameObject.FindGameObjectWithTag("TowerOptions").GetComponent<CanvasGroup>();
-        TowerController.towerOptionsCanvas.alpha = 0;
+        TowerController.Initialize();
+        ButtonTower.Initialize();
     }
 
     IEnumerator SpawnWave(Wave wave) {
