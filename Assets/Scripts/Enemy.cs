@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
     public float speed;
-
-    public List<string> immunities;
+    public float popDisplayTime;
     public GameObject child = null;
 
-    public int RBE;
+    public Sprite popSprite;
+    public List<string> immunities;
 
+    [HideInInspector] public int RBE;
+
+    private bool popped = false;
     private Rigidbody2D rb;
 
     private void Awake() {
@@ -25,6 +28,13 @@ public class Enemy : MonoBehaviour {
     }
 
     public void Pop() {
+        if (popped) {
+            return;
+        }
+
+        popped = true;
+        rb.velocity = new Vector2(0, 0);
+
         if (child != null) {
             Enemy e = Instantiate(child, transform.position, transform.rotation).GetComponent<Enemy>();
 
@@ -34,6 +44,18 @@ public class Enemy : MonoBehaviour {
         }
 
         GameController.instance.Money += RBE;
+        AudioController.instance.PlayPopSound();
+
+        StartCoroutine(DisplayPopSprite());
+    }
+
+    private IEnumerator DisplayPopSprite() {
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        sr.sprite = popSprite;
+        sr.color = new Color(1, 1, 1, 1);
+
+        yield return new WaitForSeconds(popDisplayTime);
+
         Destroy(gameObject);
     }
 }
