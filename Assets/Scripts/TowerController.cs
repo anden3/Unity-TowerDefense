@@ -50,6 +50,7 @@ public class TowerController : MonoBehaviour {
     private SpriteRenderer radiusSprite;
     private float radiusTransparency;
 
+    private Bounds backgroundBounds;
     private Texture2D backgroundTexture;
 
     private Vector3 lastMousePosition;
@@ -103,7 +104,10 @@ public class TowerController : MonoBehaviour {
 
         radiusVisualizer.transform.localScale = new Vector3(attackRange * 2, attackRange * 2, 1.0f);
 
-        backgroundTexture = GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
+        SpriteRenderer backgroundRenderer = GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>();
+        backgroundBounds = backgroundRenderer.bounds;
+        backgroundTexture = backgroundRenderer.sprite.texture;
+
         GameObject upgradeWindow = GameObject.FindGameObjectWithTag("UpgradeWindow");
 
         foreach (Upgrade u in upgrades) {
@@ -258,14 +262,22 @@ public class TowerController : MonoBehaviour {
         };
 
         foreach (Vector2 point in points) {
-            Vector2 screenPoint = Camera.main.WorldToScreenPoint(point);
+            if (!backgroundBounds.Contains(point)) {
+                return false;
+            }
 
+            float percentageX = (point.x - backgroundBounds.min.x) / backgroundBounds.size.x;
+            float percentageY = (point.y - backgroundBounds.min.y) / backgroundBounds.size.y;
 
-            Color c = backgroundTexture.GetPixel((int)screenPoint.x, (int)screenPoint.y);
-            Color x = suitableLocationColor;
-                
+            int pixelX = Mathf.RoundToInt(percentageX * backgroundTexture.width);
+            int pixelY = Mathf.RoundToInt(percentageY * backgroundTexture.height);
+
+            Color c = backgroundTexture.GetPixel(pixelX, pixelY);
+
             float diffSqr = (
-                new Vector3(x.r, x.g, x.b) - new Vector3(c.r, c.g, c.b)
+                new Vector3(
+                    suitableLocationColor.r, suitableLocationColor.g, suitableLocationColor.b
+                ) - new Vector3(c.r, c.g, c.b)
             ).sqrMagnitude;
 
             if (diffSqr > colorTolerance) {
