@@ -33,7 +33,6 @@ public class Enemy : MonoBehaviour {
         }
 
         popped = true;
-        rb.velocity = new Vector2(0, 0);
 
         if (child != null) {
             Enemy e = Instantiate(child, transform.position, transform.rotation).GetComponent<Enemy>();
@@ -42,6 +41,8 @@ public class Enemy : MonoBehaviour {
             float childSpeed = (rb.velocity.magnitude / speed) * e.speed;
             e.GetComponent<Rigidbody2D>().velocity = rb.velocity.normalized * childSpeed;
         }
+
+        rb.velocity = new Vector2(0, 0);
 
         GameController.instance.Money += RBE;
         AudioController.instance.PlayPopSound();
