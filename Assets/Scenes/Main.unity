@@ -945,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948a2921806e76f4383e1b1767911c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 6500
+  money: 650
   lives: 40
   waves:
   - enemies:

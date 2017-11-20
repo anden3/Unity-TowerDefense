@@ -143,7 +143,7 @@ MonoBehaviour:
   shouldRotate: 1
   projectile: {fileID: 114187489221783236, guid: 56d29c09837a81d4b918a6f8c24c2e98,
     type: 2}
-  fireScript: {fileID: 11500000, guid: 78e37fae8628c7249a9452c175fa45d3, type: 3}
+  fireObject: {fileID: 1555489800482256, guid: 31d3e494596dc4cffab42af38c3143e4, type: 2}
   upgrades: []
   suitableLocationColor: {r: 0.02, g: 0.527, b: 0.008, a: 1}
   colorTolerance: 0.1
@@ -159,6 +159,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -174,6 +175,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -191,6 +193,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212767350567701810
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -200,6 +203,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -215,6 +219,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -232,3 +237,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

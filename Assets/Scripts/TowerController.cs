@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditor;
 
 public class TowerController : MonoBehaviour {
     static private Text sellValue;
@@ -27,7 +26,7 @@ public class TowerController : MonoBehaviour {
 
     [Header("Tower Modules")]
     public Projectile projectile;
-    public MonoScript fireScript;
+    public GameObject fireObject;
     public List<Upgrade> upgrades;
 
     [Header("Placement Settings")]
@@ -93,7 +92,7 @@ public class TowerController : MonoBehaviour {
         towerValue = cost;
         towerCollider = gameObject.GetComponent<BoxCollider2D>();
 
-        fireFunction = gameObject.AddComponent(Type.GetType(fireScript.name)) as FireFunction;
+        fireFunction = fireObject.GetComponent<FireFunction>();
         fireFunction.Initialize(gameObject);
     }
 
@@ -104,7 +103,7 @@ public class TowerController : MonoBehaviour {
 
         radiusVisualizer.transform.localScale = new Vector3(attackRange * 2, attackRange * 2, 1.0f);
 
-        backgroundTexture = (Texture2D)GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
+        backgroundTexture = GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite.texture;
         GameObject upgradeWindow = GameObject.FindGameObjectWithTag("UpgradeWindow");
 
         foreach (Upgrade u in upgrades) {
@@ -209,7 +208,7 @@ public class TowerController : MonoBehaviour {
                 transform.position = mousePosition;
 
                 bool locationWasSuitable = suitableLocation;
-                suitableLocation = CheckIfOnSuitableTerrarin();
+                suitableLocation = CheckIfOnSuitableTerrain();
 
                 // Check if need to update radius color.
                 if (suitableLocation != locationWasSuitable) {
@@ -249,8 +248,8 @@ public class TowerController : MonoBehaviour {
         return Mathf.RoundToInt(towerValue * 0.8f);
     }
 
-    private bool CheckIfOnSuitableTerrarin() {
-        Vector2[] points = new Vector2[5] {
+    private bool CheckIfOnSuitableTerrain() {
+        Vector2[] points = {
             towerCollider.bounds.center,
             towerCollider.bounds.min,
             (Vector2)towerCollider.bounds.min + new Vector2(towerCollider.bounds.size.x, 0),
@@ -260,6 +259,8 @@ public class TowerController : MonoBehaviour {
 
         foreach (Vector2 point in points) {
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(point);
+
+
             Color c = backgroundTexture.GetPixel((int)screenPoint.x, (int)screenPoint.y);
             Color x = suitableLocationColor;
                 
